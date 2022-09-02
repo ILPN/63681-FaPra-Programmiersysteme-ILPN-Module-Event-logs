@@ -19,7 +19,7 @@ import { DragDropFileUploadDirective } from './directives/drag-drop-file/drag-dr
 import { ExportMenuItemComponent } from './components/export-button/export-menu-item/export-menu-item.component';
 import { DirectlyFollowsGraphComponent } from './components/directly-follows-graph/directly-follows-graph.component';
 import { ChangeViewButtonComponent } from './components/change-view-button/change-view-button.component';
-import { APP_BASE_HREF } from '@angular/common';
+import {APP_BASE_HREF, PlatformLocation} from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -87,7 +87,11 @@ const valueChainLabelExtraSizeExtractor: (
         ScrollingModule,
     ],
     providers: [
-        { provide: APP_BASE_HREF, useValue: '/' },
+        {
+            provide: APP_BASE_HREF,
+            useFactory: (s: PlatformLocation) => s.getBaseHrefFromDOM(),
+            deps: [PlatformLocation]
+        },
         {
             provide: LayoutService.VALUE_CHAIN_INSTANCE,
             useFactory: () =>
